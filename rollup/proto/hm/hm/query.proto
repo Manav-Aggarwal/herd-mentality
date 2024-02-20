@@ -97,7 +97,7 @@ message QueryGetAnswersRequest {
 }
 
 message QueryGetAnswersResponse {
-  Answer                                 answer     = 1;
+  repeated Answer                                 answers     = 1 [(gogoproto.nullable) = false];
   cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
