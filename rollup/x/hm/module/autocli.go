@@ -17,6 +17,28 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Use:       "params",
 					Short:     "Shows the parameters of the module",
 				},
+				{
+					RpcMethod: "QuestionAll",
+					Use:       "list-question",
+					Short:     "List all question",
+				},
+				{
+					RpcMethod:      "Question",
+					Use:            "show-question [id]",
+					Short:          "Shows a question",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "index"}},
+				},
+				{
+					RpcMethod: "AnswerAll",
+					Use:       "list-answer",
+					Short:     "List all answer",
+				},
+				{
+					RpcMethod:      "Answer",
+					Use:            "show-answer [id]",
+					Short:          "Shows a answer",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "index"}},
+				},
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

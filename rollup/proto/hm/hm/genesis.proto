@@ -1,17 +1,21 @@
 syntax = "proto3";
+
 package hm.hm;
 
 import "amino/amino.proto";
 import "gogoproto/gogo.proto";
 import "hm/hm/params.proto";
+import "hm/hm/question.proto";
+import "hm/hm/answer.proto";
 
 option go_package = "hm/x/hm/types";
 
 // GenesisState defines the hm module's genesis state.
 message GenesisState {
+  
   // params defines all the parameters of the module.
-  Params params = 1 [
-    (gogoproto.nullable) = false,
-    (amino.dont_omitempty) = true
-  ];
+           Params   params       = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
+  repeated Question questionList = 2 [(gogoproto.nullable) = false] ;
+  repeated Answer   answerList   = 3 [(gogoproto.nullable) = false] ;
 }
+

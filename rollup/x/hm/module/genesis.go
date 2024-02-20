@@ -9,6 +9,14 @@ import (
 
 // InitGenesis initializes the module's state from a provided genesis state.
 func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) {
+	// Set all the question
+	for _, elem := range genState.QuestionList {
+		k.SetQuestion(ctx, elem)
+	}
+	// Set all the answer
+	for _, elem := range genState.AnswerList {
+		k.SetAnswer(ctx, elem)
+	}
 	// this line is used by starport scaffolding # genesis/module/init
 	k.SetParams(ctx, genState.Params)
 }
@@ -18,6 +26,8 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis := types.DefaultGenesis()
 	genesis.Params = k.GetParams(ctx)
 
+	genesis.QuestionList = k.GetAllQuestion(ctx)
+	genesis.AnswerList = k.GetAllAnswer(ctx)
 	// this line is used by starport scaffolding # genesis/module/export
 
 	return genesis

@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package hm.hm;
 
 import "amino/amino.proto";
@@ -6,25 +7,81 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "hm/hm/params.proto";
+import "hm/hm/question.proto";
+import "hm/hm/answer.proto";
 
 option go_package = "hm/x/hm/types";
 
 // Query defines the gRPC querier service.
 service Query {
+  
   // Parameters queries the parameters of the module.
-  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/hm/hm/params";
+  
+  }
+  
+  // Queries a list of Question items.
+  rpc Question    (QueryGetQuestionRequest) returns (QueryGetQuestionResponse) {
+    option (google.api.http).get = "/hm/hm/question/{index}";
+  
+  }
+  rpc QuestionAll (QueryAllQuestionRequest) returns (QueryAllQuestionResponse) {
+    option (google.api.http).get = "/hm/hm/question";
+  
+  }
+  
+  // Queries a list of Answer items.
+  rpc Answer    (QueryGetAnswerRequest) returns (QueryGetAnswerResponse) {
+    option (google.api.http).get = "/hm/hm/answer/{index}";
+  
+  }
+  rpc AnswerAll (QueryAllAnswerRequest) returns (QueryAllAnswerResponse) {
+    option (google.api.http).get = "/hm/hm/answer";
+  
   }
 }
-
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
 
 // QueryParamsResponse is response type for the Query/Params RPC method.
 message QueryParamsResponse {
+  
   // params holds all the parameters of this module.
-  Params params = 1 [
-    (gogoproto.nullable) = false,
-    (amino.dont_omitempty) = true
-  ];
+  Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
 }
+
+message QueryGetQuestionRequest {
+  string index = 1;
+}
+
+message QueryGetQuestionResponse {
+  Question question = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllQuestionRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllQuestionResponse {
+  repeated Question                               question   = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetAnswerRequest {
+  string index = 1;
+}
+
+message QueryGetAnswerResponse {
+  Answer answer = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllAnswerRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllAnswerResponse {
+  repeated Answer                                 answer     = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+

@@ -1,0 +1,12 @@
+syntax = "proto3";
+package hm.hm;
+
+option go_package = "hm/x/hm/types";
+
+message Answer {
+  string index = 1; 
+  string player = 2; 
+  string desc = 3; 
+  
+}
+
