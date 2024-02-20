@@ -1,0 +1,36 @@
+syntax = "proto3";
+package hm;
+
+option go_package = "github.com/Manav-Aggarwal/herd-mentality/server/pb/hm";
+
+message QuestionRequest {
+  uint64 id = 1;
+}
+
+message Question {
+  uint64 id = 1;
+  string question = 2;
+}
+
+message Answer {
+  uint64 question_id = 1;
+  string user_name = 2;
+  string answer = 3;
+}
+
+message Confirmation {
+}
+
+message ResultsRequest {
+  uint64 question_id = 1;
+}
+
+message Results {
+
+}
+
+service HerdMentality {
+  rpc CurrentQuestion(QuestionRequest) returns (Question) {}
+  rpc SubmitAnswer(Answer) returns (Confirmation) {}
+  rpc GetResults(ResultsRequest) returns (Results) {}
+}

@@ -1,0 +1,10 @@
+version: v1beta1
+
+# The plugins to run.
+plugins:
+  # The name of the plugin.
+  - name: gogofaster
+     # The relative output directory.
+    out: server/pb/hm
+    # Any options to provide to the plugin.
+    opt: plugins=grpc,paths=source_relative
