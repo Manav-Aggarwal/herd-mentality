@@ -14,14 +14,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20.x
-      - run: cd client
       # Yarn equivalent of npm ci.
       - run: yarn install --frozen-lockfile
+        working-directory: client
       - run: yarn build
+        working-directory: client
       - uses: crazy-max/ghaction-github-pages@v4
         with:
           target_branch: gh-pages
-          build_dir: build
+          build_dir: client/build
           keep_history: true
           verbose: true
         env:
