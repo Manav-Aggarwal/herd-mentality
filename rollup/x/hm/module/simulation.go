@@ -23,7 +23,15 @@ var (
 )
 
 const (
-// this line is used by starport scaffolding # simapp/module/const
+	opWeightMsgSubmitQuestion = "op_weight_msg_submit_question"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgSubmitQuestion int = 100
+
+	opWeightMsgSubmitAnswer = "op_weight_msg_submit_answer"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgSubmitAnswer int = 100
+
+	// this line is used by starport scaffolding # simapp/module/const
 )
 
 // GenerateGenesisState creates a randomized GenState of the module.
@@ -51,6 +59,28 @@ func (AppModule) ProposalContents(_ module.SimulationState) []simtypes.WeightedP
 func (am AppModule) WeightedOperations(simState module.SimulationState) []simtypes.WeightedOperation {
 	operations := make([]simtypes.WeightedOperation, 0)
 
+	var weightMsgSubmitQuestion int
+	simState.AppParams.GetOrGenerate(opWeightMsgSubmitQuestion, &weightMsgSubmitQuestion, nil,
+		func(_ *rand.Rand) {
+			weightMsgSubmitQuestion = defaultWeightMsgSubmitQuestion
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgSubmitQuestion,
+		hmsimulation.SimulateMsgSubmitQuestion(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgSubmitAnswer int
+	simState.AppParams.GetOrGenerate(opWeightMsgSubmitAnswer, &weightMsgSubmitAnswer, nil,
+		func(_ *rand.Rand) {
+			weightMsgSubmitAnswer = defaultWeightMsgSubmitAnswer
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgSubmitAnswer,
+		hmsimulation.SimulateMsgSubmitAnswer(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -59,6 +89,22 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 // ProposalMsgs returns msgs used for governance proposals for simulations.
 func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.WeightedProposalMsg {
 	return []simtypes.WeightedProposalMsg{
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgSubmitQuestion,
+			defaultWeightMsgSubmitQuestion,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				hmsimulation.SimulateMsgSubmitQuestion(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgSubmitAnswer,
+			defaultWeightMsgSubmitAnswer,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				hmsimulation.SimulateMsgSubmitAnswer(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
 		// this line is used by starport scaffolding # simapp/module/OpMsg
 	}
 }

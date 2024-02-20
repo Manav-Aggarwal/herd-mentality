@@ -9004,6 +9004,90 @@ paths:
               Since: cosmos-sdk 0.47
       tags:
         - Msg
+  /hm.hm.Msg/SubmitAnswer:
+    post:
+      operationId: HmHmMsg_SubmitAnswer
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              creator:
+                type: string
+              qid:
+                type: string
+              player:
+                type: string
+              answer:
+                type: string
+      tags:
+        - Msg
+  /hm.hm.Msg/SubmitQuestion:
+    post:
+      operationId: HmHmMsg_SubmitQuestion
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              creator:
+                type: string
+              qid:
+                type: string
+              question:
+                type: string
+      tags:
+        - Msg
   /hm.hm.Msg/UpdateParams:
     post:
       summary: |-
@@ -9052,10 +9136,7 @@ paths:
                   authority is the address that controls the module (defaults to
                   x/gov unless overwritten).
               params:
-                description: |-
-                  params defines the module parameters to update.
-
-                  NOTE: All parameters must be supplied.
+                description: 'NOTE: All parameters must be supplied.'
                 type: object
             description: MsgUpdateParams is the Msg/UpdateParams request type.
       tags:
@@ -22668,6 +22749,30 @@ definitions:
           min_commission_rate is the chain-wide minimum commission rate that a
           validator can charge their delegators
     description: Params defines the parameters for the x/staking module.
+  hm.hm.MsgSubmitAnswer:
+    type: object
+    properties:
+      creator:
+        type: string
+      qid:
+        type: string
+      player:
+        type: string
+      answer:
+        type: string
+  hm.hm.MsgSubmitAnswerResponse:
+    type: object
+  hm.hm.MsgSubmitQuestion:
+    type: object
+    properties:
+      creator:
+        type: string
+      qid:
+        type: string
+      question:
+        type: string
+  hm.hm.MsgSubmitQuestionResponse:
+    type: object
   hm.hm.MsgUpdateParams:
     type: object
     properties:
@@ -22677,10 +22782,7 @@ definitions:
           authority is the address that controls the module (defaults to x/gov
           unless overwritten).
       params:
-        description: |-
-          params defines the module parameters to update.
-
-          NOTE: All parameters must be supplied.
+        description: 'NOTE: All parameters must be supplied.'
         type: object
     description: MsgUpdateParams is the Msg/UpdateParams request type.
   hm.hm.MsgUpdateParamsResponse:
