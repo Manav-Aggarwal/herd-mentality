@@ -1,4 +1,4 @@
-module hm
+module github.com/Manav-Aggarwal/herd-mentality/rollup
 
 go 1.21.1
 

@@ -27,6 +27,7 @@ func main() {
 	grpcServer := grpc.NewServer(opts...)
 
 	srv := &server{}
+	srv.endpoint = "172.16.24.190:36657"
 	file, err := os.Open(*questionsPtr)
 	if err != nil {
 		log.Fatalf("cannot load questions file: %v", err)
