@@ -3,15 +3,16 @@ package main
 import (
 	"bufio"
 	"context"
-	"github.com/Manav-Aggarwal/herd-mentality/server/pb"
-	"github.com/Manav-Aggarwal/herd-mentality/server/pb/hm"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 	"io"
 	"log"
 	"math/rand"
 	"strconv"
 	"time"
+
+	"github.com/Manav-Aggarwal/herd-mentality/server/pb"
+	"github.com/Manav-Aggarwal/herd-mentality/server/pb/hm"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 type server struct {
@@ -21,6 +22,7 @@ type server struct {
 
 	endpoint string
 	client   pb.MsgClient
+	query    pb.QueryClient
 }
 
 func (s *server) CurrentQuestion(ctx context.Context, request *hm.QuestionRequest) (*hm.Question, error) {
@@ -60,6 +62,7 @@ func (s *server) start(ctx context.Context) {
 		log.Fatal(err)
 	}
 	s.client = pb.NewMsgClient(conn)
+	s.query = pb.NewQueryClient(conn)
 
 	s.ticker = time.NewTicker(60 * time.Second)
 	s.submitQuestion()
