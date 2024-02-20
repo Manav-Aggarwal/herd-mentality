@@ -45,5 +45,34 @@ func (k Keeper) GetAnswers(goCtx context.Context, req *types.QueryGetAnswersRequ
 		return nil, status.Error(codes.Internal, err.Error())
 	}
 
-	return &types.QueryGetAnswersResponse{Answers: answers, Pagination: pageRes}, nil
+	return &types.QueryGetAnswersResponse{Answers: findMostOccurringStrings(answers), Pagination: pageRes}, nil
+}
+
+// FindMostOccurringItems returns a slice of the most frequently occurring Item instances based on the Value field.
+func findMostOccurringStrings(answers []types.Answer) []types.Answer {
+	// Map to store the count of each unique string value
+	counts := make(map[string]int)
+	// Map to store the last seen Item for each unique string value
+	lastSeen := make(map[string]types.Answer)
+	maxCount := 0
+
+	// Count the occurrences of each unique string value
+	for _, answer := range answers {
+		value := answer.Desc
+		counts[value]++
+		lastSeen[value] = answer // Keep the last seen instance of each unique value
+		if counts[value] > maxCount {
+			maxCount = counts[value]
+		}
+	}
+
+	// Find the Item(s) with the highest occurrence
+	var mostOccurringItems []types.Answer
+	for _, answer := range lastSeen {
+		if counts[answer.Desc] == maxCount {
+			mostOccurringItems = append(mostOccurringItems, answer)
+		}
+	}
+
+	return mostOccurringItems
 }
