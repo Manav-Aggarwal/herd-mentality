@@ -40,6 +40,12 @@ service Query {
     option (google.api.http).get = "/hm/hm/answer";
   
   }
+  
+  // Queries a list of GetAnswers items.
+  rpc GetAnswers (QueryGetAnswersRequest) returns (QueryGetAnswersResponse) {
+    option (google.api.http).get = "/hm/hm/get_answers/{qid}";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -83,5 +89,15 @@ message QueryAllAnswerRequest {
 message QueryAllAnswerResponse {
   repeated Answer                                 answer     = 1 [(gogoproto.nullable) = false];
            cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetAnswersRequest {
+  string                                qid        = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+message QueryGetAnswersResponse {
+  Answer                                 answer     = 1;
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

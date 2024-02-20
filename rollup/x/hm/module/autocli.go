@@ -39,6 +39,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Shows a answer",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "index"}},
 				},
+				{
+					RpcMethod:      "GetAnswers",
+					Use:            "get-answers [qid]",
+					Short:          "Query get-answers",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "qid"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},
